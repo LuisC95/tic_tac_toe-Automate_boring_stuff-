@@ -4,11 +4,11 @@
 # players take turns placing their symbol on the grid
 # the first player to get three in a row wins
 
-import random, time
+import random, sys
 
-#ALL_MOVES = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 X, O, BLANK = 'X', 'O', ' ' #BLANK is used to represent an empty cell on the board
 status = ['playing', 'waiting'] #'playing' indicates the player whose turn it is, while 'waiting' indicates the player who is waiting for their turn.
+confirmation = None
 
 win_conditions = [      [1,2,3], [4,5,6], [7,8,9], #rows
                         [1,4,7], [2,5,8], [3,6,9], #columns
@@ -99,11 +99,37 @@ def check_for_winners(player_in_turn):
     player_moves = set(player_in_turn['moves']) #convert the player's moves to a set for easier comparison with the win conditions
     for condition in win_conditions:
         if set(condition).issubset(player_moves):
-            print(f"{player_in_turn['name']} wins!")
+            print(f"\n{player_in_turn['name']} wins!")
             player_in_turn['score'] += 1
             is_there_a_winner = True
             break
     return  is_there_a_winner
+
+def claim_winner(player_in_turn, waiting_player):
+    if player_in_turn['score'] > waiting_player['score']:
+        print(f"\n{player_in_turn['name']} wins!".upper())
+    elif player_in_turn['score'] == waiting_player['score']:
+        print("It's a tie!")    
+    else:
+        print(f"\n{waiting_player['name']} wins!".upper())
+def reset_game():
+    P1['moves'] = []
+    P2['moves'] = []
+    game_board['positions'] = [BLANK] * 9
+    display_blank_board(BLANK)
+    return P1['moves'], P2['moves'], game_board['positions']
+
+def new_game_confirmation(confirmation,player_in_turn, waiting_player):
+    
+    while True:
+        new_game = input("Do you want to play again? (y/n): ").lower()
+        confirmation = None
+        if new_game == 'y':
+            reset_game()
+        else:
+            claim_winner(player_in_turn, waiting_player)
+            sys.exit("Thanks for playing!")
+        return confirmation
 
     
 def game_loop(player_in_turn, waiting_player):
@@ -111,26 +137,28 @@ def game_loop(player_in_turn, waiting_player):
     
         while player_in_turn['current_status'] == status[0]: #while the current player is in 'playing' status
             try:
-                move = int(input(f"enter the number corresponding to the position on the board where you want to place your symbol: "))
+                move = int(input(f"\n {player_in_turn['name']} enter the number of position: "))
 
                 if move in waiting_player['moves']or move in player_in_turn['moves'][:-1]: #check if the move is valid (not already taken)
                     raise ValueError("Position already taken")
                 if move < 1 or move > 9: #check if the move is within the valid range
                     raise ValueError("Invalid input. Please enter a number between 1 and 9 corresponding to an empty position on the board.")
-                if len(game_board['positions']) > 9: #check if the board is full
-                    raise ValueError("The board is full. It's a draw!")
+                if not isinstance(move, int):
+                    raise ValueError("Invalid input. Please enter a number between 1 and 9 corresponding to an empty position on the board.")
+                
                 
                 player_in_turn['moves'].append(move) #add the player's move to their list of moves
                 board_update(player_in_turn, player_in_turn['moves'][-1]) #update the board with the player's move
 
+                if len(player_in_turn['moves']) + len(waiting_player['moves']) == 9: #check if the board is full and it's a draw
+                    new_game_confirmation(confirmation, player_in_turn, waiting_player)
+                    raise ValueError(f"\nIt's a draw! The board is full. Starting a new game.")
+                
                 if check_for_winners(player_in_turn): #check if the current player has won after making their move
-                    print(f"{player_in_turn['name']} wins!")
-                    player_in_turn['score'] += 1
-                    break
-                #game_board['positions'][player_in_turn['moves'][-1] - 1] = player_in_turn['symbol'] #update the game board positions with the player's symbol
+                    print(f"\n Current score: \n{player_in_turn['name']}'s score: {player_in_turn['score']} \n{waiting_player['name']}'s score: {waiting_player['score']}")
+                    new_game_confirmation(confirmation, player_in_turn, waiting_player)
                 player_in_turn, waiting_player = switch_turns(player_in_turn, waiting_player) #switch turns between the current player and the waiting player
                 pass
-                check_for_winners(player_in_turn) #check if the current player has won after making their move
             except ValueError as e:
                 print(e)
                 pass
