@@ -4,32 +4,15 @@
 # players take turns placing their symbol on the grid
 # the first player to get three in a row wins
 
-from assign_symbols import assign_symbols
+from symbols import assign_symbols
 from turns import first_turn
 from board import display_blank_board
 from game import game_loop
+from symbols import BLANK
+from players import P1, P2
 
-X, O, BLANK = 'X', 'O', ' ' #BLANK is used to represent an empty cell on the board
-status = ['playing', 'waiting'] #'playing' indicates the player whose turn it is, while 'waiting' indicates the player who is waiting for their turn.
-confirmation = None
 
-win_conditions = [      [1,2,3], [4,5,6], [7,8,9], #rows
-                        [1,4,7], [2,5,8], [3,6,9], #columns
-                        [1,5,9], [3,5,7]] #diagonals
 
-P1 = { #dictionary to store player 1's information
-    'symbol': [],
-    'moves': [],
-    'current_status': [],
-    'score': 0
-}
-
-P2 = { #dictionary to store player 2's information
-    'symbol': [],
-    'moves': [],
-    'current_status': [],
-    'score': 0
-}
 
 def main():
     

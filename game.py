@@ -1,8 +1,32 @@
-from main import status, confirmation
-from board_update import board_update
-from check_for_winners import check_for_winners
-from switch_turns import switch_turns
-from new_game import new_game_confirmation
+from players import P1, P2
+from board import board_update, display_blank_board, game_board
+from winners import check_for_winners, claim_winner
+from turns import switch_turns
+from symbols import status, BLANK
+from game import new_game_confirmation, confirmation
+
+import sys
+
+def new_game_confirmation(confirmation,player_in_turn, waiting_player):
+    
+    while True:
+        new_game = input("Do you want to play again? (y/n): ").lower()
+        confirmation = None
+        if new_game == 'y':
+            reset_game()
+        else:
+            claim_winner(player_in_turn, waiting_player)
+            sys.exit("Thanks for playing!")
+        return confirmation
+    
+
+def reset_game():
+    P1['moves'] = []
+    P2['moves'] = []
+    game_board['positions'] = [BLANK] * 9
+    display_blank_board(BLANK)
+    return P1['moves'], P2['moves'], game_board['positions']
+
 
 def game_loop(player_in_turn, waiting_player): 
         while player_in_turn['current_status'] == status[0]: #while the current player is in 'playing' status
