@@ -1,4 +1,4 @@
-from main import BLANK
+from symbols import BLANK
 
 game_board = {
     'positions': [],
@@ -9,6 +9,7 @@ game_board = {
  --+---+--   --+---+--
  {} | {} | {}   7 | 8 | 9 '''.center(50),
 } #list of valid positions on the board
+
 
 
 def board_update(player_in_turn, position):

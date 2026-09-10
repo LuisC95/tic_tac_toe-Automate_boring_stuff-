@@ -10,17 +10,25 @@ from board import display_blank_board
 from game import game_loop
 from symbols import BLANK
 from players import P1, P2
+from memory.global_score import average_score_calculation
+from winners import claim_winner
 
-
-
+def get_valid_player_name(prompt):
+    # Get player names from input and validate them
+    while True:
+        name = input(prompt).strip()
+        if not name:
+            print("Name cannot be empty. Please try again.")
+        else:
+            return name
 
 def main():
-    
+    print("Welcome to Tic Tac Toe!")
+    P1['name'] = get_valid_player_name("Player 1, please enter your name: ")
+    P2['name'] = get_valid_player_name("Player 2, please enter your name: ")
     active_player = {}
     pasive_player = {}
-    print("Welcome to Tic Tac Toe!")
-    P1.setdefault('name', input("Player 1, please enter your name: "))
-    P2.setdefault('name', input("Player 2, please enter your name: "))
+
 
     assign_symbols()
     active_player, pasive_player = first_turn(active_player, pasive_player)

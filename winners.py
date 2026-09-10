@@ -23,7 +23,10 @@ def claim_winner(player_in_turn, waiting_player):
     match player_in_turn['score'], waiting_player['score']:
         case player_score, waiting_score if player_score > waiting_score:
             print(f"\n{player_in_turn['name']} wins!".upper())
+            print(f'\n Average score: {player_in_turn["name"]}: {player_in_turn["average"]} \n{waiting_player["name"]}: {waiting_player["average"]}')
         case player_score, waiting_score if player_score == waiting_score:
             print("It's a tie!".upper())
+            print(f'\n Average score: {player_in_turn["name"]}: {player_in_turn["average"]} \n{waiting_player["name"]}: {waiting_player["average"]}')
         case player_score, waiting_score if player_score < waiting_score:
             print(f"\n{waiting_player['name']} wins!".upper())
+            print(f'\n Average score: {player_in_turn["name"]}: {player_in_turn["average"]} \n{waiting_player["name"]}: {waiting_player["average"]}')
