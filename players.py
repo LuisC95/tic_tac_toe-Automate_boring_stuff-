@@ -7,7 +7,9 @@ P1 = { #dictionary to store player 1's information
     'won_games': 0,
     'lost_games': 0,
     'average': 0,
-    'name': ''
+    'name': '',
+    'last_game': False,
+    'games_played': 0
 }
 
 P2 = { #dictionary to store player 2's information
@@ -18,5 +20,7 @@ P2 = { #dictionary to store player 2's information
     'won_games': 0,
     'lost_games': 0,
     'average': 0,
-    'name': ''
+    'name': '',
+    'last_game_winner': False,
+    'games_played': 0
 }

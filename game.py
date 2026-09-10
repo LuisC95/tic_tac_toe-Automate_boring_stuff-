@@ -1,6 +1,6 @@
 from players import P1, P2
 from board import board_update, display_blank_board, game_board
-from winners import check_for_winners, claim_winner
+from winners import check_for_winners, claim_winner, scores_updating
 from turns import switch_turns
 from symbols import status, BLANK
 from memory.global_score import global_score_update, average_score_calculation
@@ -60,7 +60,8 @@ def game_loop(player_in_turn, waiting_player):
                 match total_moves:
                     case total_moves if total_moves <= 9:
                     #check if the current player has won after making their move
-                        if check_for_winners(player_in_turn): 
+                        if check_for_winners(player_in_turn):
+                            scores_updating(player_in_turn, waiting_player)
                             average_score_calculation(player_in_turn)
                             average_score_calculation(waiting_player)
                             print(f"\n Current score: \n{player_in_turn['name']}'s score: {player_in_turn['score']} \n{waiting_player['name']}'s score: {waiting_player['score']}")
@@ -71,6 +72,7 @@ def game_loop(player_in_turn, waiting_player):
                         elif total_moves == 9 and not check_for_winners(player_in_turn): 
                             #if the board is full and there is no winner, it's a draw
                             print("\n It's a draw!")
+                            scores_updating(player_in_turn, waiting_player)
                             average_score_calculation(player_in_turn)
                             average_score_calculation(waiting_player)
                             print(f"\n Current score: \n{player_in_turn['name']}'s score: {player_in_turn['score']} \n{waiting_player['name']}'s score: {waiting_player['score']}")

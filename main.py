@@ -11,7 +11,7 @@ from game import game_loop
 from symbols import BLANK
 from players import P1, P2
 from memory.global_score import average_score_calculation
-from winners import claim_winner
+from winners import scores_updating
 
 def get_valid_player_name(prompt):
     # Get player names from input and validate them

@@ -6,17 +6,44 @@ def check_for_winners(player_in_turn):
     #check if the current player has won by comparing their moves to the winning conditions
     global is_there_a_winner
     is_there_a_winner = False
-
-
     #convert the player's moves to a set for easier comparison with the win conditions
     player_moves = set(player_in_turn['moves']) 
     for condition in win_conditions:
         if set(condition).issubset(player_moves):
             print(f"\n{player_in_turn['name']} wins!")
             player_in_turn['score'] += 1
+            player_in_turn['last_game_winner'] = True
             is_there_a_winner = True
             break
     return  is_there_a_winner
+
+def scores_updating(player_in_turn, waiting_player):
+    # update the player's average score, win, loss, and games played
+    while True:
+        if player_in_turn['last_game_winner'] == True:
+            player_in_turn['won_games'] += 1
+            waiting_player['lost_games'] += 1
+            player_in_turn['games_played'] += 1
+            waiting_player['games_played'] += 1
+            player_in_turn['average'] = round(float(player_in_turn['won_games'] - player_in_turn['lost_games']) / player_in_turn['games_played'], 2)
+            player_in_turn['average'] = round(float(player_in_turn['won_games'] - player_in_turn['lost_games']) / player_in_turn['games_played'], 2)
+
+        elif player_in_turn['last_game_winner'] == False:
+            waiting_player['won_games'] += 1
+            player_in_turn['lost_games'] += 1
+            waiting_player['games_played'] += 1
+            player_in_turn['games_played'] += 1
+            waiting_player['average'] = round(float(waiting_player['won_games'] - waiting_player['lost_games']) / waiting_player['games_played'], 2)
+            player_in_turn['average'] = round(float(player_in_turn['won_games'] - player_in_turn['lost_games']) / player_in_turn['games_played'], 2)
+
+        else:
+            player_in_turn['games_played'] += 1
+            waiting_player['games_played'] += 1
+            player_in_turn['average'] = round(float(player_in_turn['won_games'] - player_in_turn['lost_games']) / player_in_turn['games_played'], 2)
+            waiting_player['average'] = round(float(waiting_player['won_games'] - waiting_player['lost_games']) / waiting_player['games_played'], 2)
+        break
+    player_in_turn['last_game_winner'] = False
+    waiting_player['last_game_winner'] = False
 
 def claim_winner(player_in_turn, waiting_player):
 
