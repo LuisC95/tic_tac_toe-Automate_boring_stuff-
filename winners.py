@@ -19,8 +19,8 @@ def check_for_winners(player_in_turn):
 
 def scores_updating(player_in_turn, waiting_player):
     # update the player's average score, win, loss, and games played
-    while True:
-        if player_in_turn['last_game_winner'] == True or player_in_turn['last_game_winner'] is None:
+    while True or not player_in_turn['last_game_winner']:
+        if player_in_turn['last_game_winner'] == True:
             player_in_turn['won_games'] += 1
             waiting_player['lost_games'] += 1
             player_in_turn['games_played'] += 1

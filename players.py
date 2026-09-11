@@ -8,7 +8,7 @@ P1 = { #dictionary to store player 1's information
     'lost_games': 0,
     'average': 0,
     'name': '',
-    'last_game': False,
+    'last_game_winner': False,
     'games_played': 0
 }
 
