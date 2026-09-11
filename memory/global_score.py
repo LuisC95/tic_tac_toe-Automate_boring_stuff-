@@ -25,9 +25,9 @@ top_scoreboard = {
 
 }
 
-def average_score_calculation(player):
+'''def average_score_calculation(player):
     if player['won_games'] > 0:
         player['average'] = int(player['score'] / player['won_games'])
     else:
         player['average'] = 0
-        return str(player['average'])
+        return str(player['average'])'''

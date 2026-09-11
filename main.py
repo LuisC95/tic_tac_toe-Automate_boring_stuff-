@@ -10,8 +10,8 @@ from board import display_blank_board
 from game import game_loop
 from symbols import BLANK
 from players import P1, P2
-from memory.global_score import average_score_calculation
-from winners import scores_updating
+#from memory.global_score import average_score_calculation
+
 
 def get_valid_player_name(prompt):
     # Get player names from input and validate them

@@ -3,7 +3,7 @@ from board import board_update, display_blank_board, game_board
 from winners import check_for_winners, claim_winner, scores_updating
 from turns import switch_turns
 from symbols import status, BLANK
-from memory.global_score import global_score_update, average_score_calculation
+# from memory.global_score import global_score_update, average_score_calculation
 
 import sys
 
@@ -17,7 +17,7 @@ def new_game_confirmation(confirmation,player_in_turn, waiting_player):
             reset_game()
         else:
             claim_winner(player_in_turn, waiting_player)
-            global_score_update(player_in_turn, waiting_player)
+            #global_score_update(player_in_turn, waiting_player)
             sys.exit("Thanks for playing!")
         return confirmation
     
@@ -62,10 +62,10 @@ def game_loop(player_in_turn, waiting_player):
                     #check if the current player has won after making their move
                         if check_for_winners(player_in_turn):
                             scores_updating(player_in_turn, waiting_player)
-                            average_score_calculation(player_in_turn)
-                            average_score_calculation(waiting_player)
-                            print(f"\n Current score: \n{player_in_turn['name']}'s score: {player_in_turn['score']} \n{waiting_player['name']}'s score: {waiting_player['score']}")
-                            print(f'\n Average score: \n{player_in_turn["name"]}: {player_in_turn["average"]} \n{waiting_player["name"]}: {waiting_player["average"]}')
+                            #average_score_calculation(player_in_turn)
+                            #average_score_calculation(waiting_player)
+                            print(f"\n  Current score: \n\n{player_in_turn['name']}'s score: {player_in_turn['score']} \n{waiting_player['name']}'s score: {waiting_player['score']}")
+                            print(f'\n  Average per game: \n\n{player_in_turn["name"]}: \n  wins: {player_in_turn["average"]}% \n  losses: {player_in_turn["lost_percentage"]}% \n  tied games: {player_in_turn["tied_games"]}%\n{waiting_player["name"]}: \n  wins: {waiting_player["average"]}% \n  losses: {waiting_player["lost_percentage"]}% \n  tied games: {waiting_player["tied_games"]}%')
                             
                             new_game_confirmation(confirmation, player_in_turn, waiting_player)
                             
@@ -73,10 +73,10 @@ def game_loop(player_in_turn, waiting_player):
                             #if the board is full and there is no winner, it's a draw
                             print("\n It's a draw!")
                             scores_updating(player_in_turn, waiting_player)
-                            average_score_calculation(player_in_turn)
-                            average_score_calculation(waiting_player)
-                            print(f"\n Current score: \n{player_in_turn['name']}'s score: {player_in_turn['score']} \n{waiting_player['name']}'s score: {waiting_player['score']}")
-                            print(f'\n Average score: \n{player_in_turn["name"]}: {player_in_turn["average"]} \n{waiting_player["name"]}: {waiting_player["average"]}')
+                            #average_score_calculation(player_in_turn)
+                            #average_score_calculation(waiting_player)
+                            print(f"\n  Current score: \n{player_in_turn['name']}'s score: {player_in_turn['score']} \n{waiting_player['name']}'s score: {waiting_player['score']}")
+                            print(f'\n  Average per game: \n\n{player_in_turn["name"]}: \n  wins: {player_in_turn["average"]}% \n  losses: {player_in_turn["lost_percentage"]}% \n  tied games: {player_in_turn["tied_games"]}%\n{waiting_player["name"]}: \n  wins: {waiting_player["average"]}% \n  losses: {waiting_player["lost_percentage"]}% \n  tied games: {waiting_player["tied_games"]}%')
                             new_game_confirmation(confirmation, player_in_turn, waiting_player)
                         player_in_turn, waiting_player = switch_turns(player_in_turn, waiting_player) #switch turns between the current player and the waiting player   
                         pass
