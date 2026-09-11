@@ -21,52 +21,53 @@ def check_for_winners(player_in_turn):
 def scores_updating(player_in_turn, waiting_player):
     # update the player's average score, win, loss, and games played
     while True or not player_in_turn['last_game_winner']:
-        if player_in_turn['last_game_winner'] == True:
-            
-            player_in_turn['won_games'] += 1
+        if player_in_turn['last_game_winner'] == True: #when player_in_turn wins
+
+            waiting_player['games_played'] += 1         
             player_in_turn['games_played'] += 1
 
+            player_in_turn['won_games'] += 1
             waiting_player['lost_games'] += 1
-            waiting_player['games_played'] += 1
             
             
             player_in_turn['won_percentage'] = round(float((player_in_turn['won_games'] / player_in_turn['games_played'])*100), 2)
             player_in_turn['lost_percentage'] = round(float((player_in_turn['lost_games'] / player_in_turn['games_played'])*100), 2)
+            player_in_turn['tied_percentage'] = round(float((player_in_turn['tied_games']/player_in_turn['games_played'])*100), 2)
 
             waiting_player['won_percentage'] = round(float((waiting_player['won_games'] / waiting_player['games_played'])*100), 2)
             waiting_player['tied_percentage'] = round(float((waiting_player['tied_games']/waiting_player['games_played'])*100), 2)
             waiting_player['lost_percentage'] = round(float((waiting_player['lost_games'] / waiting_player['games_played'])*100), 2)       
 
-        elif player_in_turn['last_game_winner'] == False:
+        elif player_in_turn['last_game_winner'] == False: #when player_in_turn loses
 
+            waiting_player['games_played'] += 1
             player_in_turn['games_played'] += 1
-            player_in_turn['lost_games'] += 1
-            player_in_turn['lost_percentage'] = round(float((player_in_turn['lost_games'] / player_in_turn['games_played'])*100), 2)
 
             waiting_player['won_games'] += 1
-            waiting_player['games_played'] += 1
-            waiting_player['games_played'] += 1
-
-            waiting_player['won_percentage'] = round(float((waiting_player['won_games']) / waiting_player['games_played'])*100, 2)
+            waiting_player['won_percentage'] = round(float((waiting_player['won_games'] / waiting_player['games_played'])*100), 2)
             waiting_player['lost_percentage'] = round(float((waiting_player['lost_games'] / waiting_player['games_played'])*100), 2)
             waiting_player['tied_percentage'] = round(float((waiting_player['tied_games']/waiting_player['games_played'])*100), 2)
 
+            
+            player_in_turn['lost_games'] += 1
+            player_in_turn['lost_percentage'] = round(float((player_in_turn['lost_games'] / player_in_turn['games_played'])*100), 2)
             player_in_turn['won_percentage'] = round(float((player_in_turn['won_games'] / player_in_turn['games_played'])*100), 2)
             player_in_turn['tied_percentage'] = round(float((player_in_turn['tied_games']/player_in_turn['games_played'])*100), 2)
-            player_in_turn['lost_percentage'] = round(float(((player_in_turn['games_played'] - player_in_turn['lost_games']- player_in_turn['won_games']) / player_in_turn['games_played'])*100), 2)
 
-        else:
+        else: #when the game is a tie
             player_in_turn['games_played'] += 1
+            waiting_player['games_played'] += 1
+
             player_in_turn['tied_games'] += 1
             player_in_turn['won_percentage'] = round(float((player_in_turn['won_games'] / player_in_turn['games_played'])*100), 2)
             player_in_turn['lost_percentage'] = round(float((player_in_turn['lost_games'] / player_in_turn['games_played'])*100), 2)
-            player_in_turn['tied_percentage'] = round(float((player_in_turn['tied_games']/player_in_turn['games_played'])*100), 2)
+            player_in_turn['tied_percentage'] = round(float((player_in_turn['tied_games'] / player_in_turn['games_played'])*100), 2)
 
-            waiting_player['games_played'] += 1
+            
             waiting_player['tied_games'] += 1
             waiting_player['won_percentage'] = round(float((waiting_player['won_games']  / waiting_player['games_played'])*100), 2)
             waiting_player['lost_percentage'] = round(float((waiting_player['lost_games'] / waiting_player['games_played'])*100), 2)
-            waiting_player['tied_percentage'] = round(float((waiting_player['tied_games']/waiting_player['games_played'])*100), 2)
+            waiting_player['tied_percentage'] = round(float((waiting_player['tied_games'] / waiting_player['games_played'])*100), 2)
         break
 
     player_in_turn['last_game_winner'] = None
