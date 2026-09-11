@@ -8,9 +8,11 @@ P1 = { #dictionary to store player 1's information
     'lost_games': 0,
     'average': 0,
     'name': '',
-    'last_game_winner': False,
+    'last_game_winner': None,
     'games_played': 0,
     'tied_games': 0,
+    'tied_percentage': 0,
+    'won_percentage': 0,
     'lost_percentage': 0
 }
 
@@ -23,8 +25,10 @@ P2 = { #dictionary to store player 2's information
     'lost_games': 0,
     'average': 0,
     'name': '',
-    'last_game_winner': False,
+    'last_game_winner': None,
     'games_played': 0,
     'tied_games': 0,
-    'lost_percentage': 0
+    'lost_percentage': 0,
+    'tied_percentage': 0,
+    'won_percentage': 0
 }
