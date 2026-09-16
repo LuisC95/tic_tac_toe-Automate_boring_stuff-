@@ -60,23 +60,23 @@ def game_loop(player_in_turn, waiting_player):
                 match total_moves:
                     case total_moves if total_moves <= 9:
                     #check if the current player has won after making their move
-                        if check_for_winners(player_in_turn):
+                        if check_for_winners(player_in_turn, waiting_player):
                             scores_updating(player_in_turn, waiting_player)
                             #average_score_calculation(player_in_turn)
                             #average_score_calculation(waiting_player)
                             print(f"\n  Current score: \n\n{player_in_turn['name']}'s score: {player_in_turn['score']} \n{waiting_player['name']}'s score: {waiting_player['score']}")
-                            print(f'\n  Average per game: \n\n{player_in_turn["name"]}: \n  wins: {player_in_turn["won_percentage"]}% \n  losses: {player_in_turn["lost_percentage"]}% \n  tied games: {player_in_turn["tied_percentage"]}%\n{waiting_player["name"]}: \n  wins: {waiting_player["won_percentage"]}% \n  losses: {waiting_player["lost_percentage"]}% \n  tied games: {waiting_player["tied_percentage"]}%')
+                            print(f'\n  Average per game: \n\n{player_in_turn["name"]}: \n  wins: {player_in_turn["win_percentage"]}% \n  losses: {player_in_turn["lost_percentage"]}% \n  tied games: {player_in_turn["tied_percentage"]}%\n{waiting_player["name"]}: \n  wins: {waiting_player["won_percentage"]}% \n  losses: {waiting_player["lost_percentage"]}% \n  tied games: {waiting_player["tied_percentage"]}%')
                             
                             new_game_confirmation(confirmation, player_in_turn, waiting_player)
                             
-                        elif total_moves == 9 and not check_for_winners(player_in_turn): 
+                        elif total_moves == 9 and not check_for_winners(player_in_turn, waiting_player): 
                             #if the board is full and there is no winner, it's a draw
                             print("\n It's a draw!")
                             scores_updating(player_in_turn, waiting_player)
                             #average_score_calculation(player_in_turn)
                             #average_score_calculation(waiting_player)
                             print(f"\n  Current score: \n{player_in_turn['name']}'s score: {player_in_turn['score']} \n{waiting_player['name']}'s score: {waiting_player['score']}")
-                            print(f'\n  Average per game: \n\n{player_in_turn["name"]}: \n  wins: {player_in_turn["won_percentage"]}% \n  losses: {player_in_turn["lost_percentage"]}% \n  tied games: {player_in_turn["tied_percentage"]}%\n{waiting_player["name"]}: \n  wins: {waiting_player["won_percentage"]}% \n  losses: {waiting_player["lost_percentage"]}% \n  tied games: {waiting_player["tied_percentage"]}%')
+                            print(f'\n  Average per game: \n\n{player_in_turn["name"]}: \n  wins: {player_in_turn["win_percentage"]}% \n  losses: {player_in_turn["lost_percentage"]}% \n  tied games: {player_in_turn["tied_percentage"]}%\n{waiting_player["name"]}: \n  wins: {waiting_player["win_percentage"]}% \n  losses: {waiting_player["lost_percentage"]}% \n  tied games: {waiting_player["tied_percentage"]}%')
                             new_game_confirmation(confirmation, player_in_turn, waiting_player)
                         player_in_turn, waiting_player = switch_turns(player_in_turn, waiting_player) #switch turns between the current player and the waiting player   
                         pass
