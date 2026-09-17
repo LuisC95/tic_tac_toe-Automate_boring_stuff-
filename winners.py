@@ -6,15 +6,13 @@ def check_for_winners(player_in_turn, waiting_player):
     #check if the current player has won by comparing their moves to the winning conditions
     #convert the player's moves to a set for easier comparison with the win conditions
     player_moves = set(player_in_turn['moves']) 
-    is_there_a_winner = False
     for condition in win_conditions:
         if set(condition).issubset(player_moves):
             print(f"\n{player_in_turn['name']} wins!")
             player_in_turn['game_status'] = 'Win'
             waiting_player['game_status'] = 'Loss'
-            is_there_a_winner = True
-            break
-    return  True if is_there_a_winner else False
+            return True
+    return False
 
 def percentage_calculation(player):
     #calculate score percentages: wins, losses and ties
@@ -31,8 +29,6 @@ def reset_game_status(player_in_turn, waiting_player):
 
 def record_scores(result, player_in_turn, waiting_player):
     #record the scores based on the result of the game
-    player_in_turn['games_played'] += 1
-    waiting_player['games_played'] += 1
 
     match result:
         case 'Win':
@@ -49,6 +45,8 @@ def record_scores(result, player_in_turn, waiting_player):
         case _:
             raise ValueError(f"Invalid result: {result}")
 
+    player_in_turn['games_played'] += 1
+    waiting_player['games_played'] += 1
     return player_in_turn['score'], waiting_player['score']
 
 def scores_updating(player_in_turn, waiting_player):
