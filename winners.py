@@ -17,12 +17,14 @@ def check_for_winners(player_in_turn, waiting_player):
     return  True if is_there_a_winner else False
 
 def percentage_calculation(player):
+    #calculate score percentages: wins, losses and ties
     player['win_percentage'] = round(float((player['won_games'] / player['games_played'])*100), 2)
     player['lost_percentage'] = round(float((player['lost_games'] / player['games_played'])*100), 2)
     player['tied_percentage'] = round(float((player['tied_games']/player['games_played'])*100), 2)
     return player['win_percentage'], player['lost_percentage'], player['tied_percentage']
 
 def reset_game_status(player_in_turn, waiting_player):
+    #reset the game status for both players 
     player_in_turn['game_status'] = 'Tie'
     waiting_player['game_status'] = 'Tie'
     return player_in_turn['game_status'], waiting_player['game_status']
@@ -32,19 +34,20 @@ def record_scores(result, player_in_turn, waiting_player):
     player_in_turn['games_played'] += 1
     waiting_player['games_played'] += 1
 
-    if result == 'Win':
-        player_in_turn['score'] += 1
-        player_in_turn['won_games'] += 1
-        waiting_player['lost_games'] += 1
-   
-    elif result == 'Loss':
-        waiting_player['score'] += 1
-        waiting_player['won_games'] += 1
-        player_in_turn['lost_games'] += 1
-
-    else:  # result == 'Tie'
-        player_in_turn['tied_games'] += 1
-        waiting_player['tied_games'] += 1
+    match result:
+        case 'Win':
+            player_in_turn['score'] += 1
+            player_in_turn['won_games'] += 1
+            waiting_player['lost_games'] += 1
+        case 'Loss':
+            waiting_player['score'] += 1
+            waiting_player['won_games'] += 1
+            player_in_turn['lost_games'] += 1
+        case 'Tie':
+            player_in_turn['tied_games'] += 1
+            waiting_player['tied_games'] += 1
+        case _:
+            raise ValueError(f"Invalid result: {result}")
 
     return player_in_turn['score'], waiting_player['score']
 
