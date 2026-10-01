@@ -3,6 +3,7 @@ from board import board_update, display_blank_board, game_board
 from winners import check_for_winners, claim_winner, scores_updating
 from turns import switch_turns
 from symbols import status, BLANK
+from save_game import save_game, name_for_save_file, load_game, current_game_status
 # from memory.global_score import global_score_update, average_score_calculation
 
 import sys
@@ -39,6 +40,12 @@ def move_validation(occupied_positions, move):
         #check if the move is within the valid range
         case move if move < 1 or move > 9: 
             raise ValueError("Invalid input. Please enter a number between 1 and 9 corresponding to an empty position on the board.")
+        
+        #case move if move == str('save'):
+            #save_file_name = name_for_save_file({'name': 'current game'})
+            #save_game(current_game_status, save_file_name)
+            #sys.exit("Game saved successfully.")
+
 
 
 
@@ -48,9 +55,14 @@ def game_loop(player_in_turn, waiting_player):
         while player_in_turn['current_status'] == status[0]:  
             # Continue until the current player is no longer in 'playing' status
             try:
-                move = int(input(f"\n {player_in_turn['name']} enter the number of position: "))
-                move_validation(waiting_player['moves'] + player_in_turn['moves'], move)
-                player_in_turn['moves'].append(move) #add the player's move to their list of moves
+                move = input(f"\n {player_in_turn['name']} enter the number of position: ")
+                if move != 'save':
+                    move = int(move)
+                elif move == 'save':
+                    move = 'save'
+                    save_file_name = name_for_save_file({'name': 'current game'})
+                    save_game(current_game_status, save_file_name)
+                    sys.exit("Game saved successfully.")
 
                 board_update(player_in_turn, player_in_turn['moves'][-1]) #update the board with the player's move
 

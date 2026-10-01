@@ -1,5 +1,5 @@
 from symbols import BLANK
-
+from players import P1, P2
 game_board = {
     'positions': [],
     'panel': ''' 
@@ -28,3 +28,10 @@ def display_blank_board(space):
     space_board = [space] * 9
     print('instructions: To make a move, enter the number corresponding to the position on the board where you want to place your symbol.')
     print(game_board['panel'].format(*space_board))
+
+
+GAME_BOARD_STATUS = {
+    'positions': game_board['positions'],
+    'p1_moves': P1['moves'],
+    'p2_moves': P2['moves']
+}
