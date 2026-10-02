@@ -3,6 +3,7 @@ from players import P1, P2
 from game import game_board
 from datetime import datetime
 
+<<<<<<< HEAD
 current_game_status = {
     'positions': game_board['positions'],
     'p1_moves': P1['moves'],
@@ -20,14 +21,39 @@ def name_for_save_file(game_name):
     if not input_name:
         input_name = f"save{input_date}.txt"
     return input_name + input_date + ".txt"
+=======
+def name_for_save_file(game_name):
+    input_name = input(f"Enter the name for the save file for {game_name['name']} (leave blank for default): ")
+    input_date=f"_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+    games_folder = 'saved_games/'
+    match input_name:
+        case input_name if input_name:
+            input_name = input_name + input_date + ".txt"
+        case "":
+            input_name = f"save{input_date}.txt"
+    if not os.path.exists(games_folder):
+        os.makedirs(games_folder)
+    return os.path.join(games_folder, input_name)
+
+def saved_games_list():                                         # Return a list of saved game files in the 'saved_games' folder
+    games_folder = 'saved_games/'
+    if not os.path.exists(games_folder):
+        return []
+    return [f for f in os.listdir(games_folder) if os.path.isfile(os.path.join(games_folder, f))]
+>>>>>>> save_game
 
 def save_game(status, route):                                   # Extract the current game status from the status dictionary
     
     positions = status['positions']                             # 9 positions on the game board
     p1_moves = status['p1_moves']                               # moves made by player 1
     p2_moves = status['p2_moves']                               # moves made by player 2
+<<<<<<< HEAD
     p1_game_stats = current_game_status['p1_current_game']
     p2_game_stats = current_game_status['p2_current_game']
+=======
+    p1_game_stats = status['p1_stats']
+    p2_game_stats = status['p2_stats']
+>>>>>>> save_game
 
     line_positions = '|'.join(positions)                        # 3x3 game board positions
     line_p1 = ','.join(str(m) for m in p1_moves)                # list of moves made by player 1
@@ -42,18 +68,33 @@ def save_game(status, route):                                   # Extract the cu
 
 def load_game(route):                                           # Load the game status from the save file
     if not os.path.exists(route):                               # Check if the save file exists
+<<<<<<< HEAD
         return None                                             # save file does not exist
+=======
+        return None, print("Save file does not exist.")         # save file does not exist
+>>>>>>> save_game
     
     with open(route) as f:                                      # Open the save file for reading
         lines = f.read().splitlines()
+    
+    if len(lines) < 5:                                          # Check if the save file has all required lines
+        return None, print("Save file is corrupted.")           # save file is corrupted
 
+<<<<<<< HEAD
     line_posiciones = lines[0]                                  # 3x3 game board positions
+=======
+    line_positions = lines[0]                                   # 3x3 game board positions
+>>>>>>> save_game
     line_p1 = lines[1]                                          # list of moves made by player 1
     line_p2 = lines[2]                                          # list of moves made by player 2
     line_p1_game_stats = lines[3]                               # player 1 game stats
     line_p2_game_stats = lines[4]                               # player 2 game stats
 
+<<<<<<< HEAD
     positions = line_posiciones.split('|')                      # 3x3 game board positions
+=======
+    positions = line_positions.split('|')                       # 3x3 game board positions
+>>>>>>> save_game
     p1_moves = [int(m) for m in line_p1.split(',') if m != '']  # list of moves made by player 1
     p2_moves = [int(m) for m in line_p2.split(',') if m != '']  # list of moves made by player 2
 
@@ -75,8 +116,11 @@ def load_game(route):                                           # Load the game 
         'positions': positions,
         'p1_moves': p1_moves,
         'p2_moves': p2_moves,
+<<<<<<< HEAD
         'p1_current_game': [int(m) for m in line_p1_game_stats.split(',') if m != ''],
         'p2_current_game': [int(m) for m in line_p2_game_stats.split(',') if m != ''],
+=======
+>>>>>>> save_game
         'p1_name': P1['name'],
         'p2_name': P2['name'],
         'p1_won_games': P1['won_games'],
