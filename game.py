@@ -68,6 +68,12 @@ def move_validation(occupied_positions, move):
         #check if the move is within the valid range
         case move if move < 1 or move > 9: 
             raise ValueError("Invalid input. Please enter a number between 1 and 9 corresponding to an empty position on the board.")
+        
+        #case move if move == str('save'):
+            #save_file_name = name_for_save_file({'name': 'current game'})
+            #save_game(current_game_status, save_file_name)
+            #sys.exit("Game saved successfully.")
+
 
 def keyword_validation(move):
     # Validate if the move is a recognized keyword
@@ -92,10 +98,10 @@ def game_loop(player_in_turn, waiting_player):
             # Continue until the current player is no longer in 'playing' status
             try:
                 move = input(f"\n {player_in_turn['name']} enter the number of position: ")
-                if move.isdigit() == False:
-                    move = keyword_validation(move)# Check if the move is a keyword like 'save' or 'exit'
-                else:   
+                if move.isdigit() == True:
                     move = int(move)
+                else:
+                    move = keyword_validation(move)
 
                 move_validation(waiting_player['moves'] + player_in_turn['moves'], move)
                 player_in_turn['moves'].append(move)                      
