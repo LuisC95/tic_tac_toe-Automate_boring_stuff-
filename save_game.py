@@ -40,13 +40,12 @@ def save_game(status, route):                                   # Extract the cu
     p2_current_status = status['p2_current_status']
 
     line_positions = '|'.join(positions)                        # 3x3 game board positions
-    line_p1 = ','.join(str(m) for m in p1_moves)                # list of moves made by player 1
-    line_p2 = ','.join(str(m) for m in p2_moves)                # list of moves made by player 2
-
+    line_p1_moves = ','.join(str(m) for m in p1_moves)                # list of moves made by player 1
+    line_p2_moves = ','.join(str(m) for m in p2_moves)                # list of moves made by player 2
     with open(route, 'w') as f:                                 # Open the save file for writing
         f.write(line_positions + '\n')
-        f.write(line_p1 + '\n')
-        f.write(line_p2 + '\n')
+        f.write(line_p1_moves + '\n')
+        f.write(line_p2_moves + '\n')
         f.write(','.join(str(m) for m in p1_game_stats) + '\n')
         f.write(','.join(str(m) for m in p2_game_stats) + '\n')
         f.write(''.join(str(m) for m in p1_name) + '\n')
@@ -63,12 +62,12 @@ def load_game(route):                                           # Load the game 
     with open(route) as f:                                      # Open the save file for reading
         lines = f.read().splitlines()
     
-    if len(lines) < 11:                                         # Check if the save file has all required lines
-        return None, print("Save file is corrupted.")           # save file is corrupted
+        if len(lines) < 11:                                         # Check if the save file has all required lines
+            return None, print("Save file is corrupted.")           # save file is corrupted
 
     line_positions = lines[0]                                   # 3x3 game board positions
-    line_p1 = lines[1]                                          # list of moves made by player 1
-    line_p2 = lines[2]                                          # list of moves made by player 2
+    line_p1_moves = lines[1]                                    # list of moves made by player 1
+    line_p2_moves = lines[2]                                    # list of moves made by player 2
     line_p1_game_stats = lines[3]                               # player 1 game stats
     line_p2_game_stats = lines[4]                               # player 2 game stats
     line_p1_name = lines[5]                                     # player 1 name
@@ -79,9 +78,9 @@ def load_game(route):                                           # Load the game 
     line_p2_current_status = lines[10]                          # player 2 current status
 
     positions = line_positions.split('|')                       # 3x3 game board positions
-    p1_moves = [int(m) for m in line_p1.split(',') if m != '']  # list of moves made by player 1
-    p2_moves = [int(m) for m in line_p2.split(',') if m != '']  # list of moves made by player 2
-    game_board['positions'] = positions          # 3x3 game board as a list of lists   
+    p1_moves = [int(m) for m in line_p1_moves.split(',') if m != '']  # list of moves made by player 1
+    p2_moves = [int(m) for m in line_p2_moves.split(',') if m != '']  # list of moves made by player 2
+    game_board['positions'] = positions                         # 3x3 game board as a list of lists   
     game_board['p1_moves'] = p1_moves
     game_board['p2_moves'] = p2_moves
 
@@ -89,19 +88,18 @@ def load_game(route):                                           # Load the game 
     P1['lost_games'] = int(line_p1_game_stats.split(',')[1])
     P1['tied_games'] = int(line_p1_game_stats.split(',')[2])
     P1['score'] = int(line_p1_game_stats.split(',')[3])
+    P1['average'] = round(float(line_p1_game_stats.split(',')[4]), 2)
+    P1['name'] = line_p1_name
+    P1['symbol'] = line_p1_symbol
+    P1['current_status'] = [int(m) for m in line_p1_current_status.split(',') if m != '']
 
-    P1['average'] = int(line_p1_game_stats.split(',')[4])
-    P1['name'] = line_p1_game_stats.split(',')[5]
     P2['won_games'] = int(line_p2_game_stats.split(',')[0])
     P2['lost_games'] = int(line_p2_game_stats.split(',')[1])
     P2['tied_games'] = int(line_p2_game_stats.split(',')[2])
     P2['score'] = int(line_p2_game_stats.split(',')[3])
-    P2['average'] = int(line_p2_game_stats.split(',')[4])
-    P2['name'] = line_p2_game_stats.split(',')[5]
-    
-    P1['symbol'] = line_p1_symbol
+    P2['average'] = round(float(line_p2_game_stats.split(',')[4]), 2)
+    P2['name'] = line_p2_name
     P2['symbol'] = line_p2_symbol
-    P1['current_status'] = [int(m) for m in line_p1_current_status.split(',') if m != '']
     P2['current_status'] = [int(m) for m in line_p2_current_status.split(',') if m != '']
     
     return {
