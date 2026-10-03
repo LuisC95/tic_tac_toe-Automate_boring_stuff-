@@ -9,8 +9,6 @@ from save_game import save_game, name_for_save_file, load_game
 import sys
 import os
 
-current_game_status = {}
-
 def new_game_confirmation(confirmation,player_in_turn, waiting_player):
     # Ask the players if they want to start a new game
     while True:
@@ -36,6 +34,20 @@ def reset_game():
 def exit_game():
     save_confirmation = input("Would you like to save the game before exiting? (y/n): ")
     if save_confirmation.lower() == 'y':
+        current_game_status = {
+            'positions': game_board['positions'],
+            'current_turn': 'P1' if len(P1['moves']) <= len(P2['moves']) else 'P2',
+            'p1_stats': [P1['won_games'], P1['lost_games'],P1['tied_games'], P1['score'],  P1['average']],
+            'p2_stats': [P2['won_games'], P2['lost_games'],P2['tied_games'], P2['score'],  P2['average']],
+            'p1_name': P1['name'],
+            'p2_name': P2['name'],
+            'p1_moves': P1['moves'],
+            'p2_moves': P2['moves'],
+            'p1_symbol': P1['symbol'],
+            'p2_symbol': P2['symbol'],
+            'p1_current_status': P1['current_status'],
+            'p2_current_status': P2['current_status']
+        }
         save_file_name = name_for_save_file({'name': 'current game'})
         save_game(current_game_status, save_file_name)
         print("Game saved successfully.")

@@ -26,21 +26,6 @@ def saved_games_list(saved_games_list   ):                                      
         return saved_games_list
     return []
 def save_game(status, route):                                   # Extract the current game status from the status dictionary
-
-    status = {
-    'positions': game_board['positions'],
-    'current_turn': 'P1' if len(P1['moves']) <= len(P2['moves']) else 'P2',
-    'p1_stats': [P1['won_games'], P1['lost_games'],P1['tied_games'], P1['score'],  P1['average']],
-    'p2_stats': [P2['won_games'], P2['lost_games'],P2['tied_games'], P2['score'],  P2['average']],
-    'p1_name': P1['name'],
-    'p2_name': P2['name'],
-    'p1_moves': P1['moves'],
-    'p2_moves': P2['moves'],
-    'p1_symbol': P1['symbol'],
-    'p2_symbol': P2['symbol'],
-    'p1_current_status': P1['current_status'],
-    'p2_current_status': P2['current_status']
-    }
     
     positions = status['positions']                             # 9 positions on the game board
     p1_moves = status['p1_moves']                               # moves made by player 1
@@ -64,8 +49,8 @@ def save_game(status, route):                                   # Extract the cu
         f.write(line_p2 + '\n')
         f.write(','.join(str(m) for m in p1_game_stats) + '\n')
         f.write(','.join(str(m) for m in p2_game_stats) + '\n')
-        f.write(','.join(str(m) for m in p1_name) + '\n')
-        f.write(','.join(str(m) for m in p2_name) + '\n')
+        f.write(''.join(str(m) for m in p1_name) + '\n')
+        f.write(''.join(str(m) for m in p2_name) + '\n')
         f.write(','.join(str(m) for m in p1_symbol) + '\n')
         f.write(','.join(str(m) for m in p2_symbol) + '\n')
         f.write(''.join(str(m) for m in p1_current_status) + '\n')
