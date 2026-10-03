@@ -9,18 +9,7 @@ from save_game import save_game, name_for_save_file, load_game
 import sys
 import os
 
-current_game_status = {
-    'positions': game_board['positions'],
-    'current_turn': 'P1' if len(P1['moves']) <= len(P2['moves']) else 'P2',
-    'p1_stats': [P1['won_games'], P1['lost_games'],P1['tied_games'], P1['score'],  P1['average']],
-    'p2_stats': [P2['won_games'], P2['lost_games'],P2['tied_games'], P2['score'],  P2['average']],
-    'p1_name': P1['name'],
-    'p2_name': P2['name'],
-    'p1_moves': P1['moves'],
-    'p2_moves': P2['moves'],
-    'p1_symbol': P1['symbol'],
-    'p2_symbol': P2['symbol'],
-}
+current_game_status = {}
 
 def new_game_confirmation(confirmation,player_in_turn, waiting_player):
     # Ask the players if they want to start a new game
@@ -68,17 +57,6 @@ def move_validation(occupied_positions, move):
         #check if the move is within the valid range
         case move if move < 1 or move > 9: 
             raise ValueError("Invalid input. Please enter a number between 1 and 9 corresponding to an empty position on the board.")
-                
-        #case move if move == str('save'):
-            #save_file_name = name_for_save_file({'name': 'current game'})
-            #save_game(current_game_status, save_file_name)
-            #sys.exit("Game saved successfully.")
-
-
-        #case move if move == str('save'):
-            #save_file_name = name_for_save_file({'name': 'current game'})
-            #save_game(current_game_status, save_file_name)
-            #sys.exit("Game saved successfully.")
 
 
 def keyword_validation(move):
@@ -89,11 +67,6 @@ def keyword_validation(move):
         case move if move != 'exit':
             raise ValueError("Invalid keyword. Please enter a valid move or 'exit'.")
     return move
-        #case move if move == str('save'):
-            #save_file_name = name_for_save_file({'name': 'current game'})
-            #save_game(current_game_status, save_file_name)
-            #sys.exit("Game saved successfully.")
-
 
 
 
