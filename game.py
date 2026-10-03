@@ -68,7 +68,13 @@ def move_validation(occupied_positions, move):
         #check if the move is within the valid range
         case move if move < 1 or move > 9: 
             raise ValueError("Invalid input. Please enter a number between 1 and 9 corresponding to an empty position on the board.")
-        
+                
+        #case move if move == str('save'):
+            #save_file_name = name_for_save_file({'name': 'current game'})
+            #save_game(current_game_status, save_file_name)
+            #sys.exit("Game saved successfully.")
+
+
         #case move if move == str('save'):
             #save_file_name = name_for_save_file({'name': 'current game'})
             #save_game(current_game_status, save_file_name)
@@ -93,16 +99,16 @@ def keyword_validation(move):
 
 def game_loop(player_in_turn, waiting_player): 
         
-        confirmation = None
-        while player_in_turn['current_status'] == status[0]:  
+    confirmation = None
+    while player_in_turn['current_status'] == status[0]:  
             # Continue until the current player is no longer in 'playing' status
-            try:
-                move = input(f"\n {player_in_turn['name']} enter the number of position: ")
-                if move.isdigit() == True:
-                    move = int(move)
-                else:
-                    move = keyword_validation(move)
+        try:
 
+            move = input(f"\n {player_in_turn['name']} enter the number of position: ")
+            if move.isdigit() == False:
+                move = keyword_validation(move)# Check if the move is a keyword like 'save' or 'exit'
+            else:   
+                move = int(move)
                 move_validation(waiting_player['moves'] + player_in_turn['moves'], move)
                 player_in_turn['moves'].append(move)                      
                 board_update(player_in_turn, move) #update the board with the player's move
@@ -132,5 +138,5 @@ def game_loop(player_in_turn, waiting_player):
                             new_game_confirmation(confirmation, player_in_turn, waiting_player)
                         player_in_turn, waiting_player = switch_turns(player_in_turn, waiting_player) #switch turns between the current player and the waiting player   
                         pass
-            except ValueError as e:
+        except ValueError as e:
                 print(e)
