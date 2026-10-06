@@ -7,3 +7,4 @@ __pycache__/
 
 #ignore save game files
 save_games/
+*.txt

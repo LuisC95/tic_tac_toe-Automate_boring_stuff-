@@ -7,8 +7,32 @@ import random
 from symbols import status
 from players import P1, P2
 
-def first_turn(player_in_turn, player_waiting ):
 
+def take_turns(player_in_turn, player_waiting):
+    while not P1['current_status'] and not P2['current_status']:
+        player_in_turn = random.choice([player_in_turn, player_waiting])
+        if player_in_turn == P1:
+            P1['current_status'] = status[0]
+            P2['current_status'] = status[1]
+            player_in_turn = P1
+            player_waiting = P2
+        else:
+            P2['current_status'] = status[0]
+            P1['current_status'] = status[1]
+            player_in_turn = P2
+            player_waiting = P1
+        break
+    while P1['current_status'] == 'active' or P2['current_status'] == 'active':
+        if P1['current_status'] == 'active':
+            player_in_turn = P1
+            player_waiting = P2
+        elif P2['current_status'] == 'active':
+            player_in_turn = P2
+            player_waiting = P1
+    return player_in_turn, player_waiting
+
+'''
+def first_turn(player_in_turn, player_waiting ):
     while not P1['current_status'] and not P2['current_status']:
         player_in_turn = random.choice([P1, P2])
         if player_in_turn == P1:
@@ -24,6 +48,7 @@ def first_turn(player_in_turn, player_waiting ):
             player_waiting = P1
         
     return player_in_turn, player_waiting
+'''
 
 def switch_turns(player_in_turn, waiting_player):
     #switch the current player and the waiting player

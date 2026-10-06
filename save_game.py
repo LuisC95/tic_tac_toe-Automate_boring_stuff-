@@ -2,6 +2,7 @@ import os
 from players import P1, P2
 from game import game_board
 from datetime import datetime
+from symbols import status
 
 def name_for_save_file(game_name):
     input_name = input(f"Enter the name for the save file for {game_name['name']} (leave blank for default): ")
@@ -9,21 +10,21 @@ def name_for_save_file(game_name):
     games_folder = 'saved_games/'
     match input_name:
         case input_name if input_name:
-            input_name = input_name + input_date + ".txt"
+            input_name = games_folder + input_name + input_date + ".txt"
         case "":
-            input_name = f"save{input_date}.txt"
+            input_name = f"{games_folder}" + f'save{input_date}.txt'
     if not os.path.exists(games_folder):
         os.makedirs(games_folder)
-    return os.path.join(games_folder, input_name)
+    return input_name
 
-def saved_games_list(saved_games_list   ):                                         # Return a list of saved game files in the 'saved_games' folder
+def saved_games_list(saved_games_list):                         # Return a list of saved game files in the 'saved_games' folder
     games_folder = 'saved_games/'
     saved_games_list = []
     while os.path.exists(games_folder) == True:
         for f in os.listdir(games_folder):
             if os.path.isfile(os.path.join(games_folder, f)):
                 saved_games_list.append(f)
-        return saved_games_list
+        return [games_folder + f for f in saved_games_list]
     return []
 def save_game(status, route):                                   # Extract the current game status from the status dictionary
     
@@ -57,13 +58,13 @@ def save_game(status, route):                                   # Extract the cu
 
 def load_game(route):                                           # Load the game status from the save file
     if not os.path.exists(route):                               # Check if the save file exists
-        return None, print("Save file does not exist.")         # save file does not exist
+        raise FileNotFoundError("Save file does not exist.")        # save file does not exist
     
     with open(route) as f:                                      # Open the save file for reading
         lines = f.read().splitlines()
     
         if len(lines) < 11:                                         # Check if the save file has all required lines
-            return None, print("Save file is corrupted.")           # save file is corrupted
+            raise ValueError("Save file is corrupted.")           # save file is corrupted
 
     line_positions = lines[0]                                   # 3x3 game board positions
     line_p1_moves = lines[1]                                    # list of moves made by player 1
@@ -77,12 +78,13 @@ def load_game(route):                                           # Load the game 
     line_p1_current_status = lines[9]                           # player 1 current status
     line_p2_current_status = lines[10]                          # player 2 current status
 
+    positions = []
     positions = line_positions.split('|')                       # 3x3 game board positions
     p1_moves = [int(m) for m in line_p1_moves.split(',') if m != '']  # list of moves made by player 1
     p2_moves = [int(m) for m in line_p2_moves.split(',') if m != '']  # list of moves made by player 2
     game_board['positions'] = positions                         # 3x3 game board as a list of lists   
-    game_board['p1_moves'] = p1_moves
-    game_board['p2_moves'] = p2_moves
+    P1['moves'] = p1_moves
+    P2['moves'] = p2_moves
 
     P1['won_games'] = int(line_p1_game_stats.split(',')[0])
     P1['lost_games'] = int(line_p1_game_stats.split(',')[1])
@@ -91,7 +93,7 @@ def load_game(route):                                           # Load the game 
     P1['average'] = round(float(line_p1_game_stats.split(',')[4]), 2)
     P1['name'] = line_p1_name
     P1['symbol'] = line_p1_symbol
-    P1['current_status'] = [int(m) for m in line_p1_current_status.split(',') if m != '']
+    P1['current_status'] = [str(m) for m in line_p1_current_status.split(',') if m != '']
 
     P2['won_games'] = int(line_p2_game_stats.split(',')[0])
     P2['lost_games'] = int(line_p2_game_stats.split(',')[1])
@@ -100,12 +102,19 @@ def load_game(route):                                           # Load the game 
     P2['average'] = round(float(line_p2_game_stats.split(',')[4]), 2)
     P2['name'] = line_p2_name
     P2['symbol'] = line_p2_symbol
-    P2['current_status'] = [int(m) for m in line_p2_current_status.split(',') if m != '']
+    P2['current_status'] = [str(m) for m in line_p2_current_status.split(',') if m != '']
+
+    if P1['current_status'] == 'active':
+        P1['current_status'] = status[0]
+        P2['current_status'] = status[1]
+    if P2['current_status'] == 'active':
+        P2['current_status'] = status[0]
+        P1['current_status'] = status[1]
     
     return {
         'positions': game_board['positions'],
-        'p1_moves': p1_moves,
-        'p2_moves': p2_moves,
+        'p1_moves': P1['moves'],
+        'p2_moves': P2['moves'],
         'p1_name': line_p1_name,
         'p2_name': line_p2_name,
         'p1_won_games': P1['won_games'],

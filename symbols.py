@@ -11,6 +11,7 @@ confirmation = None
 
 
 def assign_symbols():
-    P1['symbol'] = random.choice([X, O])
-    P2['symbol'] = O if P1['symbol'] == X else X
+    if not P1['symbol'] or not P2['symbol']:
+        P1['symbol'] = random.choice([X, O])
+        P2['symbol'] = O if P1['symbol'] == X else X
     return P1['symbol'], P2['symbol']

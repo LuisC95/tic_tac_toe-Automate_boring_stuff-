@@ -29,6 +29,9 @@ def display_blank_board(space):
     print('instructions: To make a move, enter the number corresponding to the position on the board where you want to place your symbol.')
     print(game_board['panel'].format(*space_board))
 
+def display_current_board():
+    print(game_board['panel'].format(*game_board['positions']))
+
 
 GAME_BOARD_STATUS = {
     'positions': game_board['positions'],
