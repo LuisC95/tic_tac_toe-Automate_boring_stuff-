@@ -4,6 +4,8 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.cpython-*.pyc
+*.cpython-312.pyc
 
 #ignore save game files
 save_games/

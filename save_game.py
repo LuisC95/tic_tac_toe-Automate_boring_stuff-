@@ -104,12 +104,12 @@ def load_game(route):                                           # Load the game 
     P2['symbol'] = line_p2_symbol
     P2['current_status'] = [str(m) for m in line_p2_current_status.split(',') if m != '']
 
-    if P1['current_status'] == 'active':
+    '''if P1['current_status'] == 'playing':
         P1['current_status'] = status[0]
         P2['current_status'] = status[1]
     if P2['current_status'] == 'active':
         P2['current_status'] = status[0]
-        P1['current_status'] = status[1]
+        P1['current_status'] = status[1]'''
     
     return {
         'positions': game_board['positions'],
