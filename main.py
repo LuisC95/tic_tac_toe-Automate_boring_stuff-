@@ -66,11 +66,11 @@ def active_and_pasive_players_validation(active_player, pasive_player):
     # Validate the active and pasive players based on their current status
     # If either player does not have a current status, determine the first turn
     
-    if P1['current_status'] == ['playing']:
+    if P1['current_status'] == 'playing':
         active_player = P1
         pasive_player = P2
         return P1, P2
-    elif P2['current_status'] == ['playing']:
+    elif P2['current_status'] == 'playing':
         active_player = P2
         pasive_player = P1
         return active_player, pasive_player

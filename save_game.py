@@ -93,7 +93,7 @@ def load_game(route):                                           # Load the game 
     P1['average'] = round(float(line_p1_game_stats.split(',')[4]), 2)
     P1['name'] = line_p1_name
     P1['symbol'] = line_p1_symbol
-    P1['current_status'] = [str(m) for m in line_p1_current_status.split(',') if m != '']
+    P1['current_status'] = line_p1_current_status
 
     P2['won_games'] = int(line_p2_game_stats.split(',')[0])
     P2['lost_games'] = int(line_p2_game_stats.split(',')[1])
@@ -102,14 +102,7 @@ def load_game(route):                                           # Load the game 
     P2['average'] = round(float(line_p2_game_stats.split(',')[4]), 2)
     P2['name'] = line_p2_name
     P2['symbol'] = line_p2_symbol
-    P2['current_status'] = [str(m) for m in line_p2_current_status.split(',') if m != '']
-
-    '''if P1['current_status'] == 'playing':
-        P1['current_status'] = status[0]
-        P2['current_status'] = status[1]
-    if P2['current_status'] == 'active':
-        P2['current_status'] = status[0]
-        P1['current_status'] = status[1]'''
+    P2['current_status'] = line_p2_current_status
     
     return {
         'positions': game_board['positions'],
