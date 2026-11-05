@@ -1,7 +1,7 @@
 from players import P1, P2
 from board import board_update, display_blank_board, game_board
 from winners import check_for_winners, claim_winner, scores_updating
-from turns import switch_turns
+from turns import switch_turns, is_only_one_playing
 from symbols import status, BLANK
 from save_game import save_game, name_for_save_file, load_game
 # from memory.global_score import global_score_update, average_score_calculation
@@ -85,7 +85,8 @@ def keyword_validation(move):
 def game_loop(player_in_turn, waiting_player): 
         
     confirmation = None
-    while player_in_turn['current_status'] == status[0]:  
+    valid_turn = is_only_one_playing(player_in_turn, waiting_player)
+    while player_in_turn['current_status'] == status[0] and valid_turn:  
             # Continue until the current player is no longer in 'playing' status
         try:
 

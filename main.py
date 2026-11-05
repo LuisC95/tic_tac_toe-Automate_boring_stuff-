@@ -5,7 +5,7 @@
 # the first player to get three in a row wins
 
 from symbols import assign_symbols
-from turns import take_turns
+from turns import take_turns, is_only_one_playing
 from board import display_blank_board, display_current_board
 from game import game_loop
 from symbols import BLANK
@@ -86,6 +86,7 @@ def active_and_pasive_players_validation(active_player, pasive_player):
         take_turns(P1, P2)
         active_player = P1 if P1['current_status'] == 'playing' else P2
         pasive_player = P2 if active_player == P1 else P1
+        is_only_one_playing(active_player, pasive_player)
     
     return active_player, pasive_player
 
@@ -97,6 +98,7 @@ def main():
     active_player, pasive_player = active_and_pasive_players_validation(active_player, pasive_player)
     active_player['current_status'] = status[0]
     pasive_player['current_status'] = status[1]
+
 
 
     assign_symbols()
