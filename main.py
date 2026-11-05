@@ -77,16 +77,21 @@ def active_and_pasive_players_validation(active_player, pasive_player):
     if P1['current_status'] == 'playing':           # If P1 is currently playing, set them as the active player
         active_player = P1
         pasive_player = P2
+        is_only_one_playing(active_player, pasive_player)
+        
         
     elif P2['current_status'] == 'playing':         # If P2 is currently playing, set them as the active player
         active_player = P2
         pasive_player = P1
+        is_only_one_playing(active_player, pasive_player)
+        
 
     else:                                           # If neither player is currently playing, determine the first turn
         take_turns(P1, P2)
         active_player = P1 if P1['current_status'] == 'playing' else P2
         pasive_player = P2 if active_player == P1 else P1
-        is_only_one_playing(active_player, pasive_player)
+    
+    is_only_one_playing(active_player, pasive_player)
     
     return active_player, pasive_player
 
@@ -94,7 +99,7 @@ def main():
     main_menu()
     active_player = {}
     pasive_player = {}
-    
+
     active_player, pasive_player = active_and_pasive_players_validation(active_player, pasive_player)
     active_player['current_status'] = status[0]
     pasive_player['current_status'] = status[1]

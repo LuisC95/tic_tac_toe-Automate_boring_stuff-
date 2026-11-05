@@ -23,13 +23,14 @@ def take_turns(player_in_turn, player_waiting):
             player_in_turn = P2
             player_waiting = P1
         break
-    while P1['current_status'] == 'active' or P2['current_status'] == 'active': # Loop while one of the players is active
-        if P1['current_status'] == 'active':            # If P1 is active, set them as the player in turn and P2 as waiting
+    if P1['current_status'] == 'playing' or P2['current_status'] == 'playing': # Loop while one of the players is active
+        if P1['current_status'] == 'playing':            # If P1 is active, set them as the player in turn and P2 as waiting
             player_in_turn = P1
             player_waiting = P2
-        elif P2['current_status'] == 'active':          # If P2 is active, set them as the player in turn and P1 as waiting
+        elif P2['current_status'] == 'playing':          # If P2 is active, set them as the player in turn and P1 as waiting
             player_in_turn = P2
             player_waiting = P1
+
     return player_in_turn, player_waiting
 
 def switch_turns(player_in_turn, waiting_player):
