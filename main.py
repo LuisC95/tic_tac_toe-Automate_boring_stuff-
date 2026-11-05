@@ -22,10 +22,18 @@ def get_valid_player_name(prompt):
     # Get player names from input and validate them
     while True:
         name = input(prompt).strip()
-        if not name:
-            print("Name cannot be empty. Please try again.")
-        else:
-            return name
+        match name:
+            case "":
+                print("Name cannot be empty. Please try again.")
+                continue
+            case _ if not name.isalpha():
+                print("Name must contain only alphabetic characters. Please try again.")
+                continue
+            case _ if len(name) < 2:
+                print("Name must be at least 2 characters long. Please try again.")
+                continue
+            case _:
+                return name
 
 def main_menu():
     print("Welcome to the Tic Tac Toe Main Menu!")
@@ -66,16 +74,20 @@ def active_and_pasive_players_validation(active_player, pasive_player):
     # Validate the active and pasive players based on their current status
     # If either player does not have a current status, determine the first turn
     
-    if P1['current_status'] == 'playing':
+    if P1['current_status'] == 'playing':           # If P1 is currently playing, set them as the active player
         active_player = P1
         pasive_player = P2
-        return P1, P2
-    elif P2['current_status'] == 'playing':
+        
+    elif P2['current_status'] == 'playing':         # If P2 is currently playing, set them as the active player
         active_player = P2
         pasive_player = P1
-        return active_player, pasive_player
-    else:
-        return active_player, pasive_player
+
+    else:                                           # If neither player is currently playing, determine the first turn
+        take_turns(P1, P2)
+        active_player = P1 if P1['current_status'] == 'playing' else P2
+        pasive_player = P2 if active_player == P1 else P1
+    
+    return active_player, pasive_player
 
 def main():
     main_menu()
@@ -85,7 +97,6 @@ def main():
     active_player, pasive_player = active_and_pasive_players_validation(active_player, pasive_player)
     active_player['current_status'] = status[0]
     pasive_player['current_status'] = status[1]
-    take_turns(active_player, pasive_player)
 
 
     assign_symbols()
